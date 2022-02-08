@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package egovframework.example.cmmn.web;
-
-import egovframework.rte.ptl.mvc.tags.ui.pagination.AbstractPaginationRenderer;
+package com.pjw.pjwEgove.cmm.web;
 
 import javax.servlet.ServletContext;
 
 import org.springframework.web.context.ServletContextAware;
+
+import egovframework.rte.ptl.mvc.tags.ui.pagination.AbstractPaginationRenderer;
 
 /**
  * @Class Name : ImagePaginationRenderer.java

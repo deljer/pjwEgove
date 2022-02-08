@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package egovframework.example.sample.service.impl;
+package com.pjw.pjwEgove.sample.service.impl;
 
 import java.util.List;
 
-import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
+import org.springframework.stereotype.Repository;
+
+import com.pjw.pjwEgove.sample.service.SampleDefaultVO;
+import com.pjw.pjwEgove.sample.service.SampleVO;
 
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
-
-import org.springframework.stereotype.Repository;
 
 /**
  * @Class Name : SampleDAO.java

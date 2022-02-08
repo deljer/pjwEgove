@@ -28,7 +28,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package egovframework.example.cmmn;
+package com.pjw.pjwEgove.cmm;
 
 import egovframework.rte.fdl.cmmn.exception.handler.ExceptionHandler;
 

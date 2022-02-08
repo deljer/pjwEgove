@@ -13,21 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package egovframework.example.cmmn.web;
+package com.pjw.pjwEgove.cmm;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import egovframework.rte.fdl.cmmn.exception.handler.ExceptionHandler;
 
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.support.WebBindingInitializer;
-import org.springframework.web.context.request.WebRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * @Class Name : EgovBindingInitializer.java
- * @Description : EgovBindingInitializer Class
+ * @Class Name : EgovSampleExcepHndlr.java
+ * @Description : EgovSampleExcepHndlr Class
  * @Modification Information
  * @
  * @  수정일      수정자              수정내용
@@ -41,20 +36,17 @@ import org.springframework.web.context.request.WebRequest;
  *
  *  Copyright (C) by MOPAS All right reserved.
  */
-public class EgovBindingInitializer implements WebBindingInitializer {
+public class EgovSampleExcepHndlr implements ExceptionHandler {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(EgovSampleExcepHndlr.class);
 
 	/**
-	* initBinder
-	* @param binder
-	* @param request
+	* @param ex
+	* @param packageName
 	* @see 개발프레임웍크 실행환경 개발팀
 	*/
 	@Override
-	public void initBinder(WebDataBinder binder, WebRequest request) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
-		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
+	public void occur(Exception ex, String packageName) {
+		LOGGER.debug(" EgovServiceExceptionHandler run...............");
 	}
-
 }
