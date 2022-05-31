@@ -171,13 +171,6 @@
 		    <version>2.7.5</version>
 		</dependency>
 		 <!--추가 2022-02-08 oracle DB 데이터 JDBC-->
-        <dependency>
-            <groupId>ojdbc</groupId>
-            <artifactId>ojdbc</artifactId>
-            <version>8</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc8.jar</systemPath>
-        </dependency>
         
         
         <!-- mysql이나 oracle DB 사용시 아래 설정 추가  

@@ -39,7 +39,7 @@
 		</property>
 	</bean>
 
-	<bean id="egovHandler" class="com.pjw.pjwEgove.cmm.EgovSampleExcepHndlr" />
+	<bean id="egovHandler" class="com.pjw.pjwEgove.cmm.utill.EgovSampleExcepHndlr" />
 		
 	
 </beans>
