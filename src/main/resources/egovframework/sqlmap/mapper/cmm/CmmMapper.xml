@@ -3,5 +3,16 @@
 <mapper namespace="com.pjw.pjwEgove.cmm.mapper.CmmMapper">
 
 
+	<select id="selectMenuInfo" parameterType="egovMap" resultType="egovMap">
+		
+		select * from tb_menu_info_m
+		
+		
+		
+		
+			
+	</select>
+
+
 
 </mapper>

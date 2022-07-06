@@ -18,6 +18,19 @@
         <property name="webBindingInitializer">
             <bean class="com.pjw.pjwEgove.cmm.utill.EgovBindingInitializer"/>
         </property>
+        
+        <property name="messageConverters">
+			<list>
+			<!--전차정부 프레인워크는 JSON 데이터를 CONTROLLER로 받기 위해 messageConverter가 필요함 -->
+				<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+					<property name = "supportedMediaTypes">
+					    <list>
+					        <value>application/json;charset=UTF-8</value>					        
+					    </list>
+					</property>
+				</bean>
+			</list>
+		</property>
     </bean>
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
         <property name="interceptors">
@@ -26,9 +39,18 @@
             </list>
         </property>
     </bean>
-    
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0"/>
+	</bean>
+	
+	<!--2022-07-04 JsonView 설정하여 JSON VIEW로 데이터 보내기-->
+	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+   		<property name="contentType" value="application/json;charset=UTF-8"> </property>
+	</bean>
+	
     <!--local언어 lange -->
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+    
     <!-- 쿠키를 이용한 Locale 이용시 <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/> -->
     <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
         <property name="paramName" value="language" />
@@ -48,7 +70,7 @@
 
     <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1"
 	    p:viewClass="org.springframework.web.servlet.view.JstlView"
-	    p:prefix="/WEB-INF/jsp/egovframework/example/" p:suffix=".jsp"/>
+	    p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
 
     <!-- For Pagination Tag -->
     <bean id="imageRenderer" class="com.pjw.pjwEgove.cmm.utill.EgovImgPaginationRenderer"/>
