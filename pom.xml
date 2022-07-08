@@ -67,7 +67,6 @@
 		    	</exclusion>
 		    </exclusions>
         </dependency>
-        
 		<!--2022-02-08 log4j  제외 -->
 		<dependency>
 			<groupId>egovframework.rte</groupId>

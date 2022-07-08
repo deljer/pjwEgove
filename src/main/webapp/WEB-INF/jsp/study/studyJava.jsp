@@ -4,7 +4,7 @@
 
 <section>
 	<header class="major">
-		<h2>JAVA</h2>
+		<h2>기능 개발 </h2>
 	</header>
 	<div class="table-wrapper">
 		<table>
@@ -57,4 +57,9 @@
 			<li><a href="#" class="button">Next</a></li>
 		</ul>
 	</div>
+	
 </section>
+<section id="studyJavaRead">
+
+</section>
+

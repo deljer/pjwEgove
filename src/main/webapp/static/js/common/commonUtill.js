@@ -170,3 +170,33 @@ const tableItemViewMake = function(dataArray_){
 
 }
 
+
+/********************************************************
+ * @function : fileUploadChange
+ * @param    : 
+ * @return   : 
+ * @etc      : 파일 업로드 onchange
+ ***********************************************************/
+const fileUploadChange  = function(e){
+	let fileUploadStr = "";
+	fileUploadStr += '<div class="row gtr-uniform">';
+	fileUploadStr += '	<div  class="col-4 col-12-xsmall">';
+	fileUploadStr += '		<input type="text" name="path" value=""  readonly="readonly"  placeholder="Name" />';
+	fileUploadStr += '	</div>';
+	fileUploadStr += '	<div name="upItemDiv" class="col-4 col-12-xsmall" >';
+	fileUploadStr += '		<label class="button ">삭제</label>';
+	fileUploadStr += '	</div>';
+	fileUploadStr += '</div>';		
+	let fileItem = $(fileUploadStr);
+	let cloneFile = e.cloneNode();
+	cloneFile.id='';
+	
+	fileItem.find('[name="upItemDiv"]').append(cloneFile);
+	fileItem.find('[name="path"]').val(e.value);
+	e.value = '';
+	
+	
+	$('#uploadForm').append(fileItem);
+	
+	
+}

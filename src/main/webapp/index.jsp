@@ -18,14 +18,14 @@
 					<div id="innerDiv" class="inner">
 						<!-- Header -->
 							<header id="header">
-								<a type="button" class="logo"><strong>Editorial</strong> by HTML5 UP</a>
+								<a type="button" class="logo"><strong>내장난감</strong></a>
 							</header>
 
 						<!-- Banner -->
 							<section id="banner">
 								<div class="content">
 									<header>
-										<h1>X년차 누구누구 입니다.<br />
+										<h1>X.<br />
 										</h1>
 									</header>
 									<p>개인용 프로젝트 </p>
