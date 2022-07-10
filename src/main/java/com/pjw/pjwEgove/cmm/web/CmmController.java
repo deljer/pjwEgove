@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pjw.pjwEgove.cmm.service.CmmService;
@@ -85,6 +86,16 @@ public class CmmController {
 	@RequestMapping( value = "/pageMove.do" )
 	public String  pageMove( @RequestParam(value = "url", required = false) String url ,Model model)   {
 		return url;
+    }
+
+	
+	@RequestMapping( value = "/fileUpload.do" )
+	public String fileUpload( MultipartHttpServletRequest request,Model model) throws Exception {
+		model.addAttribute("testitem", "들어가랑");
+		
+		
+		
+		return "jsonView";
     }
 	
 }

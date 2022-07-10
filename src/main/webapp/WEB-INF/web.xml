@@ -26,8 +26,22 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>HTMLTagFilter</filter-name>
-		<url-pattern>*.do</url-pattern>
+	<url-pattern>*.do</url-pattern>
 	</filter-mapping>
+	
+	<!-- tomcat 에 이거 설정해줘야함
+	<Context allowCasualMultipartParsing="true" path="/">
+	<Resources cachingAllowed="true" cacheMaxSize="100000" />
+	  -->
+	 <filter>
+		<filter-name>MultipartFilter</filter-name>
+	    <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>MultipartFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	</filter-mapping>
+
     
     <!--contextConfigLocation -->
 	<context-param>

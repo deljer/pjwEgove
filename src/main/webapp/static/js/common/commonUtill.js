@@ -44,12 +44,16 @@ const comAjax =function(url,requestData,option_,callback_=defalutSuccess,errorCa
 			type 	    : 'post',
 			dataType    : 'json',
 			contentType : 'application/json',
-			method      : 'POST',
 			beforeSend  : (a,b)=>{},
 			crossDomain : false,
 	};
 	option        = $.extend(option, option_);
-	option.data   = JSON.stringify(requestData); 
+	if(option.contentType =='application/json'){
+		option.data   = JSON.stringify(requestData);	
+	}else{
+		option.data = requestData
+	}
+	
 	
 	 
 	return $.ajax(url,option).then(callback_,errorCalback_);
@@ -184,7 +188,7 @@ const fileUploadChange  = function(e){
 	fileUploadStr += '		<input type="text" name="path" value=""  readonly="readonly"  placeholder="Name" />';
 	fileUploadStr += '	</div>';
 	fileUploadStr += '	<div name="upItemDiv" class="col-4 col-12-xsmall" >';
-	fileUploadStr += '		<label class="button ">삭제</label>';
+	fileUploadStr += '		<label class="button fileDelete">삭제</label>';
 	fileUploadStr += '	</div>';
 	fileUploadStr += '</div>';		
 	let fileItem = $(fileUploadStr);
@@ -193,10 +197,58 @@ const fileUploadChange  = function(e){
 	
 	fileItem.find('[name="upItemDiv"]').append(cloneFile);
 	fileItem.find('[name="path"]').val(e.value);
+	fileItem.find('.fileDelete').on('click',fileDelete);
+	
 	e.value = '';
 	
 	
-	$('#uploadForm').append(fileItem);
-	
-	
+	$('#fileUploadTarget').append(fileItem);
 }
+
+/********************************************************
+ * @function : fileDelete
+ * @param    : 
+ * @return   : 
+ * @etc      : 파일 삭제 evenet
+ ***********************************************************/
+const fileDelete  = function(event){
+	let uploadFileList = $('#fileUploadTarget').children().get();
+	uploadFileList.forEach(item=> {
+		if($(item).find(event.target).length>0){
+			$(item).remove();
+		}
+	});
+}
+
+/********************************************************
+ * @function : uploadToServer
+ * @param    : 
+ * @return   : 
+ * @etc      : 파일 업로드 evenet
+ ***********************************************************/
+const uploadToServer  = function(e){
+	let data = {param:'1',param2:'2','param3':'3'};
+	
+	Object.keys(data).forEach(function(param){
+		let temp = document.createElement('input');
+		temp.type='text';
+		temp.name=param;
+		temp.classList.add('tempData');
+		temp.style.display='none';
+		$('#fileUploadTarget')[0].append(temp);
+	})
+	let formData = new FormData($('#fileUploadTarget')[0]);
+	let fileItem = $('#fileUploadTarget').find('[name="uploadFile"]').get();
+	$('.tempData').remove();
+	//fileItem.forEach(item=>{
+	//	formData.append("item",item.files[0]);
+	//})
+	comAjax('/fileUpload.do',formData,{
+		processData: false,
+	    contentType: false
+	},function(data){
+		
+		
+	})
+}
+
