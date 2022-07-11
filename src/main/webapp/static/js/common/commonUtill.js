@@ -240,15 +240,92 @@ const uploadToServer  = function(e){
 	let formData = new FormData($('#fileUploadTarget')[0]);
 	let fileItem = $('#fileUploadTarget').find('[name="uploadFile"]').get();
 	$('.tempData').remove();
-	//fileItem.forEach(item=>{
-	//	formData.append("item",item.files[0]);
-	//})
 	comAjax('/fileUpload.do',formData,{
 		processData: false,
 	    contentType: false
 	},function(data){
-		
-		
+		alert('파일 업로드 성공');
 	})
 }
+
+/********************************************************
+ * @function : selectUploadFile
+ * @param    : 
+ * @return   : 
+ * @etc      : uploadFile 목록 조회 
+ ***********************************************************/
+const selectUploadFile = async function(){
+	
+	let ajaxResult = await comAjax('/uploadFileList.do');
+	
+	let fileList = ajaxResult.resultData.fileList;
+	
+	
+	console.log(fileList);
+	
+	fileList.forEach(e=>{
+		let tableStr = `<tr>
+							<td>${e.fileOrizinNm}</td>
+							<td>${e.filePath}</td>
+							<td><a class="button small">다운로드</td>
+						</tr>`;
+		let tableItem = $(tableStr);
+		
+		tableItem.find('a').on('click',()=>fileDownload(e.fileId));
+		
+		tableItem.data(e);
+		
+		$('table tbody').append(tableItem);
+	})
+	
+}
+
+
+/********************************************************
+ * @function : fileDownload
+ * @param    : fileId = 파일 아이디 키값
+ * @return   : 
+ * @etc      : 파일 다운로드 기능
+ ***********************************************************/
+const fileDownload = async function(fileId){
+	
+let  responseType='blob';
+	/*
+	comAjax('/fileDownload.do',{fileId},
+			{ xhrFields: {responseType},
+			      cache: false,},
+	function(data){
+		debugger;
+	},function(data){
+		debugger;
+	})*/
+	
+	$.ajax({
+    url: '/fileDownload.do',
+    data: JSON.stringify({fileId}),
+    type: 'POST',
+    cache: false,
+    xhrFields: {
+        responseType: "blob",
+    },
+})
+	
+	
+}
+
+/********************************************************
+ * @function : pagingControl
+ * @param    : 
+ * @return   : 
+ * @etc      : paging
+ ***********************************************************/
+const pagingControl = function(data){
+
+	
+	
+	
+	
+}
+
+
 

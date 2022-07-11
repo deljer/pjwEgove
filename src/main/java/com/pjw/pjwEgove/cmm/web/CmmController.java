@@ -2,6 +2,7 @@ package com.pjw.pjwEgove.cmm.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -87,15 +89,6 @@ public class CmmController {
 	public String  pageMove( @RequestParam(value = "url", required = false) String url ,Model model)   {
 		return url;
     }
-
 	
-	@RequestMapping( value = "/fileUpload.do" )
-	public String fileUpload( MultipartHttpServletRequest request,Model model) throws Exception {
-		model.addAttribute("testitem", "들어가랑");
-		
-		
-		
-		return "jsonView";
-    }
 	
 }

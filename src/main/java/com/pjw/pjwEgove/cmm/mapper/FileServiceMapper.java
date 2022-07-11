@@ -8,10 +8,10 @@ import com.pjw.pjwEgove.cmm.vo.FileServiceVo;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper
-public interface CmmMapper {
+public interface FileServiceMapper {
 
-	List<Map<String, Object>> selectMenuInfo(Map<String, Object> param);
+	int insertFileUpload(List<FileServiceVo> fileServiceList);
 
-
-
+	List<Map<String, Object>> uploadFileList(Map<String, Object> param);
+	
 }

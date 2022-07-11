@@ -200,7 +200,13 @@
 		<artifactId>commons-fileupload</artifactId>
 		<version>1.2.1</version>
 	</dependency>
-
+	 <!--추가 2022-07-11 -->
+        <dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.2</version>
+			<scope>provided</scope>
+		</dependency>
         <!-- mysql이나 oracle DB 사용시 아래 설정 추가  
         <dependency>
             <groupId>com.googlecode.log4jdbc</groupId>

@@ -23,6 +23,8 @@ public class CmmServiceImpl implements CmmService {
 	@Autowired
 	CmmMapper cmmMapper;
 	
+
+	
 	/*카카오톡 로그인 엑세스 코드 가져오기*/
 	@Override
 	public String kakaoLoginService(String code) {
@@ -248,6 +250,9 @@ public class CmmServiceImpl implements CmmService {
 	public List<Map<String, Object>> selectMenuInfo(Map<String, Object> param) {
 		return cmmMapper.selectMenuInfo(param);
 	}
+	
+	
+	
 	
 	
 
