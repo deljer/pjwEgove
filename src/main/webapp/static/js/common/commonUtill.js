@@ -271,7 +271,7 @@ const selectUploadFile = async function(){
 						</tr>`;
 		let tableItem = $(tableStr);
 		
-		tableItem.find('a').on('click',()=>fileDownload(e.fileId));
+		tableItem.find('a').on('click',()=>fileDownload(e));
 		
 		tableItem.data(e);
 		
@@ -287,30 +287,40 @@ const selectUploadFile = async function(){
  * @return   : 
  * @etc      : 파일 다운로드 기능
  ***********************************************************/
-const fileDownload = async function(fileId){
-	
-let  responseType='blob';
-	/*
-	comAjax('/fileDownload.do',{fileId},
-			{ xhrFields: {responseType},
-			      cache: false,},
-	function(data){
-		debugger;
-	},function(data){
-		debugger;
-	})*/
-	
+const fileDownload = function(data_={}){
+	let cache = false;
+	let xhrFields =  {responseType: "blob"};
+	let url = "/fileDownload.do";
+	let type = "post";
+	let data = JSON.stringify(data_);
+	let contentType= 'application/json';
 	$.ajax({
-    url: '/fileDownload.do',
-    data: JSON.stringify({fileId}),
-    type: 'POST',
-    cache: false,
-    xhrFields: {
-        responseType: "blob",
-    },
-})
-	
-	
+		url,
+		cache,
+		xhrFields,
+		type,
+		data,
+		contentType
+	}).done(function(data, message, xhr){
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			let filename;
+			let disposition = xhr.getResponseHeader('Content-Disposition');
+			let fileLength = xhr.getResponseHeader('Content-Length');
+			let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/; 
+			let matches = filenameRegex.exec(disposition); 
+			if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, ''); 
+			const url = window.URL.createObjectURL(data);
+			const link = document.createElement('a');
+		    link.href = url;
+		    link.setAttribute('download', filename);
+		    document.body.appendChild(link);
+		    link.click();
+		    document.body.removeChild(link);
+		}else{
+			
+		}
+		
+	})
 }
 
 /********************************************************
@@ -320,12 +330,14 @@ let  responseType='blob';
  * @etc      : paging
  ***********************************************************/
 const pagingControl = function(data){
-
-	
-	
-	
-	
 }
+
+/********************************************************
+ * @function : downloadFile
+ * @param    : 
+ * @return   : 
+ * @etc      : paging
+ ***********************************************************/
 
 
 

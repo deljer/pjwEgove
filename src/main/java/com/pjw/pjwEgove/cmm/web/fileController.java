@@ -1,6 +1,9 @@
 package com.pjw.pjwEgove.cmm.web;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,17 +16,24 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.AbstractDocument.Content;
 
+import org.apache.logging.log4j.core.util.FileUtils;
+import org.aspectj.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +54,9 @@ public class fileController {
 
 	@Autowired
 	private FileService fileService;
+	
+	@Autowired
+	private ResourceLoader resourceLoader;
 	
 	@RequestMapping( value = "/fileUpload.do" )
 	public String fileUpload( MultipartHttpServletRequest request,Model model) throws Exception {
@@ -70,22 +83,19 @@ public class fileController {
 		return "jsonView";
     }
 	
-	@RequestMapping( value = "/fileDownload.do" )
-	@ResponseBody
-	public ResponseEntity<Resource> fileDownload( @RequestBody(required= false)  Map<String, Object> param,HttpServletRequest request, HttpServletResponse response,Model model) throws Exception {
-		
-
-	        Path path1 = Paths.get("D:\\gooddoctor\\2022_7_11" + "/" + "P.I 서비스-검색.html_1657519693763826031"); // 다운로드 할 파일의 최종 경로
-	        String contentType = Files.probeContentType(path1); // 타입 받아오기
-
-	        Resource resource = new InputStreamResource(Files.newInputStream(path1)); // path1의 
-
-	        return ResponseEntity.ok()
-	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachement; filename=\"" + "P.I 서비스-검색.html" +"\"")
-	                .header(HttpHeaders.CONTENT_TYPE, contentType)
-	                .body(resource);
-    }
-	
+	@RequestMapping("/fileDownload.do")
+	public void fileDownload(@RequestBody(required= false)  Map<String, Object> param,HttpServletResponse response) throws Exception {
+		File file  = null;
+		byte[] fileByte = null;
+		file =new File("D:\\gooddoctor\\2022_7_11\\asdasd.txt");
+		response.setHeader("Content-Type", "application/octect-stream");
+		response.setHeader("Content-Length", String.valueOf(file.length()));
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
+		fileByte = Files.readAllBytes(file.toPath());
+        response.getOutputStream().write(fileByte);
+        response.getOutputStream().flush();
+        response.getOutputStream().close();
+	}
 	
 	
 	
