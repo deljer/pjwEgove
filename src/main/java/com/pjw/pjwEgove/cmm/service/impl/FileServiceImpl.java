@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -18,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pjw.pjwEgove.cmm.mapper.CmmMapper;
@@ -72,7 +75,7 @@ public class FileServiceImpl implements FileService{
 
 
 	@Override
-	public List<Map<String, Object>> uploadFileList(Map<String, Object> param) {
+	public List<FileServiceVo> uploadFileList(Map<String, Object> param) {
 		return fileServiceMapper.uploadFileList(param);
 	}
 	
@@ -81,55 +84,32 @@ public class FileServiceImpl implements FileService{
 
 
 	@Override
-	public Map<String, Object> fileDownload(HttpServletRequest request, HttpServletResponse response,
-			List<Map<String, Object>> resultList) throws Exception   {
-	
-		Map<String, Object> fileItem = resultList.get(0);
-		String filePath = (String)fileItem.get("filePath");
-		String fileNm = (String)fileItem.get("fileNm");
-		String fileOriginNm = (String)fileItem.get("fileOrizinNm");
-		 File f = new File(filePath+fileNm);
-		 String downloadName = null;
-		 
-		 
-		 String browser = request.getHeader("User-Agent");
-		 if(browser.contains("MSIE") || browser.contains("Trident") || browser.contains("Chrome")){
-		      //브라우저 확인 파일명 encode  		             
-		      downloadName = URLEncoder.encode(fileOriginNm, "UTF-8").replaceAll("\\+", "%20");		             
-	     }else{		             
-		      downloadName = new String(fileOriginNm.getBytes("UTF-8"), "ISO-8859-1");
-	    }
-		 
-		 
-		 response.setHeader("Content-Disposition", "attachment;filename=\"" + downloadName +"\"");             
-		 response.setContentType("application/octer-stream");
-		 response.setHeader("Content-Transfer-Encoding", "binary;");
-
-		 try(
-				 FileInputStream fis = new FileInputStream(f);
-				 ServletOutputStream sos = response.getOutputStream();	
-			){
-
-			      byte[] b = new byte[1024];
-			      int data = 0;
-
-			      while((data=(fis.read(b, 0, b.length))) != -1){		             
-			        sos.write(b, 0, data);		             
-			      }
-
-			      sos.flush();
-			    } catch(Exception e) {
-			      throw e;
-			    }
-
+	public void fileDownload(HttpServletResponse response, Map<String, Object> param) throws Exception {
 		
+		List<FileServiceVo> fileServiceList=  fileServiceMapper.uploadFileList(param);
 		
-		
-		
-		
-		
-		
-		return null;
+		if(fileServiceList.size()>0) {
+			FileServiceVo fileServiceVo  = fileServiceList.get(0);
+			
+			String filePath =fileServiceVo.getFilePath(); 
+			String orizinNm= fileNameIncode(fileServiceVo.getFileOrizinNm());
+			String fileNm= fileServiceVo.getFileNm();
+			String fileSize = String.valueOf(fileServiceVo.getFileSize());
+			
+			
+			File file  = null;
+			byte[] fileByte = null;
+			file =new File(filePath,fileNm);
+			response.setHeader("Content-Type", "application/octect-stream");
+			response.setHeader("Content-Length", fileSize);
+			response.setHeader("Content-Disposition", "attachment; filename=" + orizinNm  );
+			if(file.isFile()) {
+				fileByte = Files.readAllBytes(file.toPath());
+				response.getOutputStream().write(fileByte);
+		        response.getOutputStream().flush();
+		        response.getOutputStream().close();
+			}
+		}
 	}
 	
 	
@@ -165,7 +145,13 @@ public class FileServiceImpl implements FileService{
 
 
 
-
+	private String fileNameIncode(String fileNm) throws Exception {
+		String incodeFileName = "";
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		String userAgent = request.getHeader("User-Agent");
+		incodeFileName="\""+ URLEncoder.encode(fileNm , "UTF-8")+ "\"";
+		return incodeFileName;
+	}
 	
 
 

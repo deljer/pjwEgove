@@ -75,7 +75,7 @@ public class fileController {
 	
 	@RequestMapping( value = "/uploadFileList.do" )
 	public String uploadFileList( @RequestBody(required= false)  Map<String, Object> param,Model model) throws Exception {
-		List<Map<String, Object>> resultList = new ArrayList<>();
+		List<FileServiceVo> resultList = new ArrayList<>();
 		
 		resultList = fileService.uploadFileList(param);
 		
@@ -85,16 +85,9 @@ public class fileController {
 	
 	@RequestMapping("/fileDownload.do")
 	public void fileDownload(@RequestBody(required= false)  Map<String, Object> param,HttpServletResponse response) throws Exception {
-		File file  = null;
-		byte[] fileByte = null;
-		file =new File("D:\\gooddoctor\\2022_7_11\\asdasd.txt");
-		response.setHeader("Content-Type", "application/octect-stream");
-		response.setHeader("Content-Length", String.valueOf(file.length()));
-		response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
-		fileByte = Files.readAllBytes(file.toPath());
-        response.getOutputStream().write(fileByte);
-        response.getOutputStream().flush();
-        response.getOutputStream().close();
+		fileService.fileDownload(response, param);
+		
+		
 	}
 	
 	

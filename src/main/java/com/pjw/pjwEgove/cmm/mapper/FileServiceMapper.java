@@ -12,6 +12,7 @@ public interface FileServiceMapper {
 
 	int insertFileUpload(List<FileServiceVo> fileServiceList);
 
-	List<Map<String, Object>> uploadFileList(Map<String, Object> param);
+	List<FileServiceVo> uploadFileList(Map<String, Object> param);
+	
 	
 }

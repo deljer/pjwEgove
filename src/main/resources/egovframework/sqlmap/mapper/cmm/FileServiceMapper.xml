@@ -3,19 +3,19 @@
 <mapper namespace="com.pjw.pjwEgove.cmm.mapper.FileServiceMapper">
 
 
-	<select id="uploadFileList" parameterType="egovMap" resultType="egovMap">
-	select 
-		file_id,
-		file_orizin_nm,
-		file_nm,
-		file_path,
-		file_crt_date,
-		file_size
-	from TB_FILE_info
-	where 1=1
-	<if test="fileId != null">
-	AND FILE_ID = #{fileId}
-	</if>
+	<select id="uploadFileList" parameterType="egovMap" resultType="FileServiceVo">
+		select 
+			file_id,
+			file_orizin_nm,
+			file_nm,
+			file_path,
+			file_crt_date,
+			file_size
+		from TB_FILE_info
+		where 1=1
+		<if test="fileId != null">
+		AND FILE_ID = #{fileId}
+		</if>
 	</select>
 
 	<insert id="insertFileUpload" parameterType="java.util.List">

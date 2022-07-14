@@ -22,8 +22,23 @@ const comInit =async function(){
 	await sideMenuViewMake(menuData);
 //	$.getScript('/static/js/lib/main.js');
 	window.main();
-	
-	
+}
+
+const naver = function(){
+	//네이버 api 호출 샘플  cros 방지
+	//$.ajax({
+	//	url: url,
+	//	type: "POST",
+	//	data: unlinkData,
+	//	dataType: "jsonp",
+	//	jsonp: "oauth_callback",
+	//	crossDomain:true,
+	//	success: function (result) {
+	//	},error: function (xhr, ajaxOptions, thrownError) {
+	//		alert(xhr.status);
+	//		alert(thrownError);
+	//	}
+	//	});
 	
 }
 
@@ -121,7 +136,15 @@ const sideMenuViewMake  = function(menuDataList){
 	}
 	return true;
 };
+function view() {
+	try {
+	var data = arguments.length > 0 ? arguments[0] : null;
+	if (data == null) return; //데이터가 없으면 반환
 
+	console.log(data); //JSON 데이터 맞게 들어왔는지 확인
+	}
+	catch(e) {}
+	}
 
 /********************************************************
  * @function : menuViewMake
@@ -306,18 +329,21 @@ const fileDownload = function(data_={}){
 			let filename;
 			let disposition = xhr.getResponseHeader('Content-Disposition');
 			let fileLength = xhr.getResponseHeader('Content-Length');
-			let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/; 
-			let matches = filenameRegex.exec(disposition); 
-			if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, ''); 
-			const url = window.URL.createObjectURL(data);
-			const link = document.createElement('a');
-		    link.href = url;
-		    link.setAttribute('download', filename);
-		    document.body.appendChild(link);
-		    link.click();
-		    document.body.removeChild(link);
-		}else{
-			
+			if(fileLength>0){
+				let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/; 
+				let matches = filenameRegex.exec(disposition); 
+				if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+				filename = decodeURIComponent(filename); 
+				const url = window.URL.createObjectURL(data);
+				const link = document.createElement('a');
+			    link.href = url;
+			    link.setAttribute('download', filename);
+			    document.body.appendChild(link);
+			    link.click();
+			    document.body.removeChild(link);	
+			}else{
+				alert('파일이 없습니다.');
+			}
 		}
 		
 	})
